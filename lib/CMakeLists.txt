@@ -4,8 +4,10 @@ add_library(ssvmHostModuleSSVMStorage
   storage_module.cpp
   storage_func.cpp
 )
-  
+
+add_dependencies(ssvmHostModuleSSVMStorage ssvmStorageRust)
+
 target_link_libraries(ssvmHostModuleSSVMStorage
   PRIVATE
-  ssvm-storage-rust
+  ssvmStorageRust
 )
