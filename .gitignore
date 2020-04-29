@@ -23,6 +23,7 @@
 
 # Nested build directory
 /build
+/target
 
 #==============================================================================#
 # Explicit files to ignore (only matches one).
@@ -38,6 +39,7 @@
 autom4te.cache
 cscope.files
 cscope.out
+Cargo.lock
 autoconf/aclocal.m4
 autoconf/autom4te.cache
 /compile_commands.json
