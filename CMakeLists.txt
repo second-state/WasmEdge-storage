@@ -16,8 +16,6 @@ include_directories(BEFORE
   ${CMAKE_CURRENT_SOURCE_DIR}/include
   ${CMAKE_CURRENT_BINARY_DIR}/${RUST_STORAGE_LIB_DIR}/src
   ${CMAKE_CURRENT_SOURCE_DIR}/${RUST_STORAGE_LIB_DIR}/src
-  ${CMAKE_CURRENT_BINARY_DIR}/${SSVM_DIR}/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/${SSVM_DIR}/include
 )
 
 # Copy Cargo.toml to build path
