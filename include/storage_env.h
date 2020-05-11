@@ -10,18 +10,14 @@ namespace Host {
 
 class StorageEnvironment {
 public:
-  struct DBBuffer {
-    char *Ptr;
-    uint32_t Off;
-  };
   std::string &getKey() { return Key; }
   std::vector<uint8_t> &getBuf() { return Buf; }
-  DBBuffer &getLoadPtr() { return DBBuf; }
+  uint32_t &getLoadOff() { return LoadOff; }
 
 private:
   std::string Key;
   std::vector<uint8_t> Buf;
-  DBBuffer DBBuf;
+  uint32_t LoadOff;
 };
 
 } // namespace Host
