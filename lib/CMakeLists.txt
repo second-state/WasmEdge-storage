@@ -14,5 +14,5 @@ target_link_libraries(ssvmHostModuleSSVMStorage
 
 target_include_directories(ssvmHostModuleSSVMStorage
   PUBLIC
-  ${PROJECT_SOURCE_DIR}/${SSVM_DIR}/include
+  ${SSVM_CORE_SRC_DIR}/include
 )

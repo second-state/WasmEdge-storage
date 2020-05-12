@@ -1,6 +1,3 @@
 [submodule "utils/rust_native_storage_library"]
 	path = utils/rust_native_storage_library
 	url = git@github.com:second-state/rust_native_storage_library.git
-[submodule "utils/ssvm-core"]
-	path = utils/ssvm-core
-	url = git@github.com:second-state/SSVM.git

@@ -8,7 +8,26 @@ if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE RelWithDebInfo)
 endif()
 
-set(SSVM_DIR utils/ssvm-core)
+# Clone ssvm-core
+if(NOT SSVM_CORE_PATH)
+  include(FetchContent)
+  FetchContent_Declare(
+    ssvm
+    GIT_REPOSITORY https://github.com/second-state/SSVM.git
+    GIT_TAG origin/master
+  )
+
+  FetchContent_GetProperties(ssvm)
+  if (NOT ssvm_POPULATED)
+      FetchContent_Populate(ssvm)
+  endif ()
+  add_subdirectory(${ssvm_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/utils/ssvm-core)
+  set(SSVM_CORE_SRC_DIR ${ssvm_SOURCE_DIR})
+else()
+  add_subdirectory(${SSVM_CORE_PATH} ${CMAKE_CURRENT_BINARY_DIR}/utils/ssvm-core)
+  set(SSVM_CORE_SRC_DIR ${SSVM_CORE_PATH})
+endif()
+
 set(RUST_STORAGE_LIB_DIR utils/rust_native_storage_library)
 
 include_directories(BEFORE
@@ -17,8 +36,6 @@ include_directories(BEFORE
   ${CMAKE_CURRENT_BINARY_DIR}/${RUST_STORAGE_LIB_DIR}/src
   ${CMAKE_CURRENT_SOURCE_DIR}/${RUST_STORAGE_LIB_DIR}/src
 )
-
-# Copy Cargo.toml to build path
 
 # rustc target
 if(CMAKE_SYSTEM_NAME STREQUAL Darwin)
@@ -49,7 +66,6 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/${SSVM_DIR})
 add_subdirectory(include)
 add_subdirectory(lib)
 add_subdirectory(tools)
