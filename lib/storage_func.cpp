@@ -11,23 +11,23 @@
 namespace SSVM {
 namespace Host {
 
-ErrCode SSVMStorageCreateUUID::body(Runtime::Instance::MemoryInstance &MemInst,
-                                    uint32_t &UUID) {
+Expect<uint32_t>
+SSVMStorageCreateUUID::body(Runtime::Instance::MemoryInstance &MemInst) {
   std::time_t CurrTime = std::time(nullptr);
-  UUID = static_cast<uint32_t>(CurrTime);
-  return ErrCode::Success;
+  return static_cast<uint32_t>(CurrTime);
 }
 
-ErrCode
+Expect<void>
 SSVMStorageBeginStoreTx::body(Runtime::Instance::MemoryInstance &MemInst,
                               uint32_t NewKey) {
   Env.getKey() = std::to_string(NewKey);
   Env.getBuf().clear();
-  return ErrCode::Success;
+  return {};
 }
 
-ErrCode SSVMStorageBeginLoadTx::body(Runtime::Instance::MemoryInstance &MemInst,
-                                     uint32_t NewKey) {
+Expect<void>
+SSVMStorageBeginLoadTx::body(Runtime::Instance::MemoryInstance &MemInst,
+                             uint32_t NewKey) {
   Env.getKey() = std::to_string(NewKey);
   Env.getBuf().clear();
   uint32_t Len =
@@ -35,63 +35,68 @@ ErrCode SSVMStorageBeginLoadTx::body(Runtime::Instance::MemoryInstance &MemInst,
   char *Ptr =
       get_byte_array_pointer(Env.getKey().c_str(), Env.getKey().length());
   if (Ptr == nullptr) {
-    return ErrCode::ExecutionFailed;
+    return Unexpect(ErrCode::ExecutionFailed);
   }
   std::copy_n(Ptr, Len, std::back_inserter(Env.getBuf()));
   Env.getLoadOff() = 0;
   free_byte_array_pointer(Ptr, Len);
-  return ErrCode::Success;
+  return {};
 }
 
-ErrCode SSVMStorageStoreI32::body(Runtime::Instance::MemoryInstance &MemInst,
-                                  uint32_t Value) {
+Expect<void>
+SSVMStorageStoreI32::body(Runtime::Instance::MemoryInstance &MemInst,
+                          uint32_t Value) {
   uint8_t Buf[4];
   std::memcpy(&Buf, &Value, sizeof(Value));
   std::copy_n(Buf, 4, std::back_inserter(Env.getBuf()));
-  return ErrCode::Success;
+  return {};
 }
 
-ErrCode SSVMStorageLoadI32::body(Runtime::Instance::MemoryInstance &MemInst,
-                                 uint32_t &Value) {
+Expect<uint32_t>
+SSVMStorageLoadI32::body(Runtime::Instance::MemoryInstance &MemInst) {
   auto &Off = Env.getLoadOff();
   if (Off >= Env.getBuf().size() || Off + 4 > Env.getBuf().size()) {
-    return ErrCode::InstantiateFailed;
+    return Unexpect(ErrCode::InstantiateFailed);
   }
+  uint32_t Value = 0;
   std::memcpy(&Value, &Env.getBuf()[Off], 4);
   Off += 4;
-  return ErrCode::Success;
+  return Value;
 }
 
-ErrCode SSVMStorageStoreI64::body(Runtime::Instance::MemoryInstance &MemInst,
-                                  uint64_t Value) {
+Expect<void>
+SSVMStorageStoreI64::body(Runtime::Instance::MemoryInstance &MemInst,
+                          uint64_t Value) {
   uint8_t Buf[8];
   std::memcpy(&Buf, &Value, sizeof(Value));
   std::copy_n(Buf, 8, std::back_inserter(Env.getBuf()));
-  return ErrCode::Success;
+  return {};
 }
 
-ErrCode SSVMStorageLoadI64::body(Runtime::Instance::MemoryInstance &MemInst,
-                                 uint64_t &Value) {
+Expect<uint64_t>
+SSVMStorageLoadI64::body(Runtime::Instance::MemoryInstance &MemInst) {
   auto &Off = Env.getLoadOff();
   if (Off >= Env.getBuf().size() || Off + 8 > Env.getBuf().size()) {
-    return ErrCode::InstantiateFailed;
+    return Unexpect(ErrCode::InstantiateFailed);
   }
+  uint64_t Value = 0;
   std::memcpy(&Value, &Env.getBuf()[Off], 8);
   Off += 8;
-  return ErrCode::Success;
+  return Value;
 }
 
-ErrCode
+Expect<void>
 SSVMStorageEndStoreTx::body(Runtime::Instance::MemoryInstance &MemInst) {
   store_byte_array(Env.getKey().c_str(), Env.getKey().length(),
                    reinterpret_cast<char *>(&(Env.getBuf()[0])),
                    Env.getBuf().size());
-  return ErrCode::Success;
+  return {};
 }
 
-ErrCode SSVMStorageEndLoadTx::body(Runtime::Instance::MemoryInstance &MemInst) {
+Expect<void>
+SSVMStorageEndLoadTx::body(Runtime::Instance::MemoryInstance &MemInst) {
   Env.getLoadOff() = 0;
-  return ErrCode::Success;
+  return {};
 }
 
 } // namespace Host
