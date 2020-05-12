@@ -24,6 +24,10 @@ if(NOT SSVM_CORE_PATH)
   add_subdirectory(${ssvm_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/utils/ssvm-core)
   set(SSVM_CORE_SRC_DIR ${ssvm_SOURCE_DIR})
 else()
+  get_filename_component(
+    SSVM_CORE_PATH "${SSVM_CORE_PATH}"
+    REALPATH
+    BASE_DIR "${CMAKE_CURRENT_BINARY_DIR}")
   add_subdirectory(${SSVM_CORE_PATH} ${CMAKE_CURRENT_BINARY_DIR}/utils/ssvm-core)
   set(SSVM_CORE_SRC_DIR ${SSVM_CORE_PATH})
 endif()
