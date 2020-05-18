@@ -6,5 +6,5 @@ add_executable(ssvm-storage
 target_link_libraries(ssvm-storage
   PRIVATE
   ssvmHostModuleSSVMStorage
-  ssvmExpVM
+  ssvmVM
 )

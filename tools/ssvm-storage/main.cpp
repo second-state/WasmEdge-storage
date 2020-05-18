@@ -1,17 +1,17 @@
 // SPDX-License-Identifier: Apache-2.0
 #include "common/value.h"
-#include "expvm/configure.h"
-#include "expvm/vm.h"
 #include "storage_module.h"
 #include "support/log.h"
+#include "vm/configure.h"
+#include "vm/vm.h"
 
 #include <iostream>
 
 int main(int Argc, char *Argv[]) {
   SSVM::Log::setErrorLoggingLevel();
 
-  SSVM::ExpVM::Configure Conf;
-  SSVM::ExpVM::VM VM(Conf);
+  SSVM::VM::Configure Conf;
+  SSVM::VM::VM VM(Conf);
 
   SSVM::Host::SSVMStorageModule StorageMod;
   VM.registerModule(StorageMod);
