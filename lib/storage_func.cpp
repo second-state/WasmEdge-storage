@@ -56,7 +56,7 @@ Expect<uint32_t>
 SSVMStorageLoadI32::body(Runtime::Instance::MemoryInstance &MemInst) {
   auto &Off = Env.getLoadOff();
   if (Off >= Env.getBuf().size() || Off + 4 > Env.getBuf().size()) {
-    return Unexpect(ErrCode::InstantiateFailed);
+    return Unexpect(ErrCode::ExecutionFailed);
   }
   uint32_t Value = 0;
   std::memcpy(&Value, &Env.getBuf()[Off], 4);
@@ -77,7 +77,7 @@ Expect<uint64_t>
 SSVMStorageLoadI64::body(Runtime::Instance::MemoryInstance &MemInst) {
   auto &Off = Env.getLoadOff();
   if (Off >= Env.getBuf().size() || Off + 8 > Env.getBuf().size()) {
-    return Unexpect(ErrCode::InstantiateFailed);
+    return Unexpect(ErrCode::ExecutionFailed);
   }
   uint64_t Value = 0;
   std::memcpy(&Value, &Env.getBuf()[Off], 8);
