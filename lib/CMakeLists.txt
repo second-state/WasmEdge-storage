@@ -14,5 +14,6 @@ target_link_libraries(ssvmHostModuleSSVMStorage
 
 target_include_directories(ssvmHostModuleSSVMStorage
   PUBLIC
+  ${Boost_INCLUDE_DIR}
   ${SSVM_CORE_SRC_DIR}/include
 )
