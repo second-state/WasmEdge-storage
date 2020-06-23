@@ -16,4 +16,5 @@ target_include_directories(ssvmHostModuleSSVMStorage
   PUBLIC
   ${Boost_INCLUDE_DIR}
   ${SSVM_CORE_SRC_DIR}/include
+  ${SSVM_CORE_SRC_DIR}/thirdparty
 )
