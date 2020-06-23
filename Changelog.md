@@ -1,3 +1,16 @@
+### 0.1.1 (2020-06-24)
+
+Refactor:
+
+* Update host function signature.
+  * Use memory instance pointer rather than reference due to API change of host function base class.
+
+Fixed Issues:
+
+* UUID generation.
+  * Use boost library to generate UUID.
+
+
 ### 0.1.0 (2020-05-20)
 
 Features:
