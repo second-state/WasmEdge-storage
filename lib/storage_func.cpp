@@ -3,18 +3,21 @@
 #include "storage_func.h"
 #include "test_lib.h"
 
-#include <ctime>
+#include <boost/uuid/uuid.hpp>
+#include <boost/uuid/uuid_generators.hpp>
 #include <string>
-
-#include <iostream>
 
 namespace SSVM {
 namespace Host {
 
 Expect<uint32_t>
 SSVMStorageCreateUUID::body(Runtime::Instance::MemoryInstance *MemInst) {
-  std::time_t CurrTime = std::time(nullptr);
-  return static_cast<uint32_t>(CurrTime);
+  uint32_t ID = 0;
+  boost::uuids::uuid UUID = boost::uuids::random_generator()();
+  for (uint32_t I = 12; I < 16; I++) {
+    ID |= static_cast<uint32_t>(UUID.data[I]) << ((15 - I) * 8);
+  }
+  return ID;
 }
 
 Expect<void>
