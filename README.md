@@ -16,7 +16,7 @@ $ docker pull secondstate/ssvm
 
 ### Or setup the environment manually
 
-Please notice that SSVM-EVMC requires cmake>=3.11
+Please notice that SSVM-Storage requires cmake>=3.11
 
 ```bash
 $ sudo apt install -y \
