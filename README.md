@@ -8,7 +8,7 @@ The [Second State VM (SSVM)](https://github.com/second-state/ssvm) is a high per
 
 ### Use our docker image (Recommanded)
 
-Our docker image is based on `ubuntu 18.04`.
+Our docker image is based on `ubuntu 20.04`.
 
 ```bash
 $ docker pull secondstate/ssvm
@@ -19,21 +19,21 @@ $ docker pull secondstate/ssvm
 Please notice that SSVM-Storage requires cmake>=3.11
 
 ```bash
+# Tools and libraries
 $ sudo apt install -y \
-	git \
+	software-properties-common \
 	cmake \
-	gcc-8 \
-	g++-8 \
 	libboost-all-dev
-# And you will need to install llvm-9 for ssvm-aot tools
-$ wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
-$ sudo apt update && apt install -y \
-        libllvm9 \
-        llvm-9 \
-        llvm-9-dev \
-        liblld-9-dev \
-        llvm-9-runtime \
-        libclang-common-9-dev # for yaml-bench
+
+# And you will need to install llvm for ssvm-aot tools
+$ sudo apt install -y \
+	llvm-dev \
+	liblld-10-dev
+
+# SSVM supports both clang++ and g++ compilers
+# You can choose one of them for building this project
+$ sudo apt install -y gcc g++
+$ sudo apt install -y clang
 ```
 
 ## Get SSVM-Storage Source Code
