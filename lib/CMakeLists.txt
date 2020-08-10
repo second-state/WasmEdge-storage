@@ -10,6 +10,7 @@ add_dependencies(ssvmHostModuleSSVMStorage ssvmStorageRust)
 target_link_libraries(ssvmHostModuleSSVMStorage
   PRIVATE
   ssvmStorageRust
+  ssvmSupport
 )
 
 target_include_directories(ssvmHostModuleSSVMStorage

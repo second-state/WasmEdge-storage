@@ -1,37 +1,57 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #include "storage_func.h"
+#include "support/hexstr.h"
 #include "test_lib.h"
 
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_generators.hpp>
 #include <string>
+#include <vector>
 
 namespace SSVM {
 namespace Host {
 
-Expect<uint32_t>
-SSVMStorageCreateUUID::body(Runtime::Instance::MemoryInstance *MemInst) {
-  uint32_t ID = 0;
-  boost::uuids::uuid UUID = boost::uuids::random_generator()();
-  for (uint32_t I = 12; I < 16; I++) {
-    ID |= static_cast<uint32_t>(UUID.data[I]) << ((15 - I) * 8);
+Expect<void>
+SSVMStorageCreateUUID::body(Runtime::Instance::MemoryInstance *MemInst,
+                            uint32_t KeyPtr) {
+  /// Check memory instance from module.
+  if (MemInst == nullptr) {
+    return Unexpect(ErrCode::ExecutionFailed);
   }
-  return ID;
+
+  boost::uuids::uuid UUID = boost::uuids::random_generator()();
+  std::vector<uint8_t> Key;
+  std::copy_n(&UUID.data[0], 16, std::back_inserter(Key));
+  std::string KeyStr;
+  Support::convertBytesToHexStr(Key, KeyStr);
+  char *Dst = MemInst->getPointer<char *>(KeyPtr);
+  std::copy_n(&KeyStr[0], 33, Dst);
+  return {};
 }
 
 Expect<void>
 SSVMStorageBeginStoreTx::body(Runtime::Instance::MemoryInstance *MemInst,
-                              uint32_t NewKey) {
-  Env.getKey() = std::to_string(NewKey);
+                              uint32_t KeyPtr) {
+  /// Check memory instance from module.
+  if (MemInst == nullptr) {
+    return Unexpect(ErrCode::ExecutionFailed);
+  }
+
+  Env.getKey() = MemInst->getPointer<char *>(KeyPtr);
   Env.getBuf().clear();
   return {};
 }
 
 Expect<void>
 SSVMStorageBeginLoadTx::body(Runtime::Instance::MemoryInstance *MemInst,
-                             uint32_t NewKey) {
-  Env.getKey() = std::to_string(NewKey);
+                             uint32_t KeyPtr) {
+  /// Check memory instance from module.
+  if (MemInst == nullptr) {
+    return Unexpect(ErrCode::ExecutionFailed);
+  }
+
+  Env.getKey() = MemInst->getPointer<char *>(KeyPtr);
   Env.getBuf().clear();
   uint32_t Len =
       get_byte_array_length(Env.getKey().c_str(), Env.getKey().length());

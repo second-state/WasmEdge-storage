@@ -13,21 +13,22 @@ namespace Host {
 class SSVMStorageCreateUUID : public SSVMStorage<SSVMStorageCreateUUID> {
 public:
   SSVMStorageCreateUUID(StorageEnvironment &Env) : SSVMStorage(Env) {}
-  Expect<uint32_t> body(Runtime::Instance::MemoryInstance *MemInst);
+  Expect<void> body(Runtime::Instance::MemoryInstance *MemInst,
+                    uint32_t KeyPtr);
 };
 
 class SSVMStorageBeginStoreTx : public SSVMStorage<SSVMStorageBeginStoreTx> {
 public:
   SSVMStorageBeginStoreTx(StorageEnvironment &Env) : SSVMStorage(Env) {}
   Expect<void> body(Runtime::Instance::MemoryInstance *MemInst,
-                    uint32_t NewKey);
+                    uint32_t KeyPtr);
 };
 
 class SSVMStorageBeginLoadTx : public SSVMStorage<SSVMStorageBeginLoadTx> {
 public:
   SSVMStorageBeginLoadTx(StorageEnvironment &Env) : SSVMStorage(Env) {}
   Expect<void> body(Runtime::Instance::MemoryInstance *MemInst,
-                    uint32_t NewKey);
+                    uint32_t KeyPtr);
 };
 
 class SSVMStorageStoreI32 : public SSVMStorage<SSVMStorageStoreI32> {
