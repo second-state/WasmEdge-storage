@@ -26,7 +26,8 @@ SSVMStorageCreateUUID::body(Runtime::Instance::MemoryInstance *MemInst,
   std::string KeyStr;
   Support::convertBytesToHexStr(Key, KeyStr);
   char *Dst = MemInst->getPointer<char *>(KeyPtr);
-  std::copy_n(&KeyStr[0], 33, Dst);
+  std::copy_n(KeyStr.c_str(), 32, Dst);
+  *(Dst + 32) = '\0';
   return {};
 }
 
@@ -38,7 +39,9 @@ SSVMStorageBeginStoreTx::body(Runtime::Instance::MemoryInstance *MemInst,
     return Unexpect(ErrCode::ExecutionFailed);
   }
 
-  Env.getKey() = MemInst->getPointer<char *>(KeyPtr);
+  char *Str = MemInst->getPointer<char *>(KeyPtr);
+  Env.getKey().clear();
+  std::copy_n(Str, 32, std::back_inserter(Env.getKey()));
   Env.getBuf().clear();
   return {};
 }
@@ -51,7 +54,9 @@ SSVMStorageBeginLoadTx::body(Runtime::Instance::MemoryInstance *MemInst,
     return Unexpect(ErrCode::ExecutionFailed);
   }
 
-  Env.getKey() = MemInst->getPointer<char *>(KeyPtr);
+  char *Str = MemInst->getPointer<char *>(KeyPtr);
+  Env.getKey().clear();
+  std::copy_n(Str, 32, std::back_inserter(Env.getKey()));
   Env.getBuf().clear();
   uint32_t Len =
       get_byte_array_length(Env.getKey().c_str(), Env.getKey().length());
