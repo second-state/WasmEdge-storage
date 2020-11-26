@@ -1,3 +1,11 @@
+### 0.1.2 (2020-11-26)
+
+Refactor:
+
+* Remove the sample tool.
+* Update to `ssvm 0.7.1`.
+
+
 ### 0.1.1 (2020-06-24)
 
 Refactor:

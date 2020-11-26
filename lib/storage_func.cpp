@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #include "storage_func.h"
-#include "support/hexstr.h"
+#include "common/hexstr.h"
 #include "test_lib.h"
 
 #include <boost/uuid/uuid.hpp>
@@ -24,7 +24,7 @@ SSVMStorageCreateUUID::body(Runtime::Instance::MemoryInstance *MemInst,
   std::vector<uint8_t> Key;
   std::copy_n(&UUID.data[0], 16, std::back_inserter(Key));
   std::string KeyStr;
-  Support::convertBytesToHexStr(Key, KeyStr);
+  convertBytesToHexStr(Key, KeyStr);
   char *Dst = MemInst->getPointer<char *>(KeyPtr);
   std::copy_n(KeyStr.c_str(), 32, Dst);
   *(Dst + 32) = '\0';

@@ -14,7 +14,7 @@ if(NOT SSVM_CORE_PATH)
   FetchContent_Declare(
     ssvm
     GIT_REPOSITORY https://github.com/second-state/SSVM.git
-    GIT_TAG 0.6.9
+    GIT_TAG 0.7.1
   )
 
   FetchContent_GetProperties(ssvm)
@@ -54,9 +54,12 @@ endif()
 
 # Cargo build command
 set(RUST_STORAGE_LIB "${CMAKE_CURRENT_BINARY_DIR}/target/${RUSTC_TARGET}/release/${CMAKE_STATIC_LIBRARY_PREFIX}ssvm_storage_rust.a")
+if(CMAKE_BUILD_TYPE STREQUAL Release OR CMAKE_BUILD_TYPE STREQUAL RelWithDebInfo)
+  set(RUST_STORAGE_FLAG "RUSTFLAGS=\"-Clinker-plugin-lto\"")
+endif()
 add_custom_command(
   OUTPUT ${RUST_STORAGE_LIB}
-  COMMAND ${CMAKE_COMMAND} -E env CARGO_TARGET_DIR=${CMAKE_CURRENT_BINARY_DIR}/target cargo build --release --target ${RUSTC_TARGET}
+  COMMAND ${CMAKE_COMMAND} -E env CARGO_TARGET_DIR=${CMAKE_CURRENT_BINARY_DIR}/target ${RUST_STORAGE_FLAG} cargo build --release --target ${RUSTC_TARGET}
   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
   COMMENT "running cargo")
 
@@ -72,4 +75,3 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 add_subdirectory(include)
 add_subdirectory(lib)
-add_subdirectory(tools)
