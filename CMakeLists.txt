@@ -7,6 +7,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE RelWithDebInfo)
 endif()
+option(BUILD_TOOLS "Generate ssvm and ssvmc tools." OFF)
 
 # Clone ssvm-core
 if(NOT SSVM_CORE_PATH)
@@ -14,7 +15,7 @@ if(NOT SSVM_CORE_PATH)
   FetchContent_Declare(
     ssvm
     GIT_REPOSITORY https://github.com/second-state/SSVM.git
-    GIT_TAG 0.7.1
+    GIT_TAG 0.7.2
   )
 
   FetchContent_GetProperties(ssvm)
