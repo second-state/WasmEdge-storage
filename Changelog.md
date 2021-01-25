@@ -1,3 +1,12 @@
+### 0.7.3 (2021-01-25)
+
+This is an extension release for updating ssvm-core.
+
+Features:
+
+* Update `ssvm-core` to version 0.7.3.
+  * Please refer to the [SSVM 0.7.3](https://github.com/second-state/SSVM/releases/tag/0.7.3) for more details.
+
 ### 0.7.2 (2020-12-24)
 
 This is an extension release for updating ssvm-core.
