@@ -52,6 +52,7 @@ Follow [Steps](https://github.com/second-state/rust_native_storage_library#build
 
 ```bash
 $ curl https://sh.rustup.rs -sSf | sh
+$ source $HOME/.cargo/env
 ```
 
 ## Build SSVM-Storage
