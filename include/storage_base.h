@@ -5,12 +5,12 @@
 #include "runtime/hostfunc.h"
 #include "storage_env.h"
 
-namespace SSVM {
+namespace WasmEdge {
 namespace Host {
 
-template <typename T> class SSVMStorage : public Runtime::HostFunction<T> {
+template <typename T> class WasmEdgeStorage : public Runtime::HostFunction<T> {
 public:
-  SSVMStorage(StorageEnvironment &HostEnv)
+  WasmEdgeStorage(StorageEnvironment &HostEnv)
       : Runtime::HostFunction<T>(0), Env(HostEnv) {}
 
 protected:
@@ -18,4 +18,4 @@ protected:
 };
 
 } // namespace Host
-} // namespace SSVM
+} // namespace WasmEdge

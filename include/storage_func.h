@@ -7,65 +7,72 @@
 #include "storage_base.h"
 #include "storage_env.h"
 
-namespace SSVM {
+namespace WasmEdge {
 namespace Host {
 
-class SSVMStorageCreateUUID : public SSVMStorage<SSVMStorageCreateUUID> {
+class WasmEdgeStorageCreateUUID
+    : public WasmEdgeStorage<WasmEdgeStorageCreateUUID> {
 public:
-  SSVMStorageCreateUUID(StorageEnvironment &Env) : SSVMStorage(Env) {}
+  WasmEdgeStorageCreateUUID(StorageEnvironment &Env) : WasmEdgeStorage(Env) {}
   Expect<void> body(Runtime::Instance::MemoryInstance *MemInst,
                     uint32_t KeyPtr);
 };
 
-class SSVMStorageBeginStoreTx : public SSVMStorage<SSVMStorageBeginStoreTx> {
+class WasmEdgeStorageBeginStoreTx
+    : public WasmEdgeStorage<WasmEdgeStorageBeginStoreTx> {
 public:
-  SSVMStorageBeginStoreTx(StorageEnvironment &Env) : SSVMStorage(Env) {}
+  WasmEdgeStorageBeginStoreTx(StorageEnvironment &Env) : WasmEdgeStorage(Env) {}
   Expect<void> body(Runtime::Instance::MemoryInstance *MemInst,
                     uint32_t KeyPtr);
 };
 
-class SSVMStorageBeginLoadTx : public SSVMStorage<SSVMStorageBeginLoadTx> {
+class WasmEdgeStorageBeginLoadTx
+    : public WasmEdgeStorage<WasmEdgeStorageBeginLoadTx> {
 public:
-  SSVMStorageBeginLoadTx(StorageEnvironment &Env) : SSVMStorage(Env) {}
+  WasmEdgeStorageBeginLoadTx(StorageEnvironment &Env) : WasmEdgeStorage(Env) {}
   Expect<void> body(Runtime::Instance::MemoryInstance *MemInst,
                     uint32_t KeyPtr);
 };
 
-class SSVMStorageStoreI32 : public SSVMStorage<SSVMStorageStoreI32> {
+class WasmEdgeStorageStoreI32
+    : public WasmEdgeStorage<WasmEdgeStorageStoreI32> {
 public:
-  SSVMStorageStoreI32(StorageEnvironment &Env) : SSVMStorage(Env) {}
+  WasmEdgeStorageStoreI32(StorageEnvironment &Env) : WasmEdgeStorage(Env) {}
   Expect<void> body(Runtime::Instance::MemoryInstance *MemInst, uint32_t Value);
 };
 
-class SSVMStorageLoadI32 : public SSVMStorage<SSVMStorageLoadI32> {
+class WasmEdgeStorageLoadI32 : public WasmEdgeStorage<WasmEdgeStorageLoadI32> {
 public:
-  SSVMStorageLoadI32(StorageEnvironment &Env) : SSVMStorage(Env) {}
+  WasmEdgeStorageLoadI32(StorageEnvironment &Env) : WasmEdgeStorage(Env) {}
   Expect<uint32_t> body(Runtime::Instance::MemoryInstance *MemInst);
 };
 
-class SSVMStorageStoreI64 : public SSVMStorage<SSVMStorageStoreI64> {
+class WasmEdgeStorageStoreI64
+    : public WasmEdgeStorage<WasmEdgeStorageStoreI64> {
 public:
-  SSVMStorageStoreI64(StorageEnvironment &Env) : SSVMStorage(Env) {}
+  WasmEdgeStorageStoreI64(StorageEnvironment &Env) : WasmEdgeStorage(Env) {}
   Expect<void> body(Runtime::Instance::MemoryInstance *MemInst, uint64_t Value);
 };
 
-class SSVMStorageLoadI64 : public SSVMStorage<SSVMStorageLoadI64> {
+class WasmEdgeStorageLoadI64 : public WasmEdgeStorage<WasmEdgeStorageLoadI64> {
 public:
-  SSVMStorageLoadI64(StorageEnvironment &Env) : SSVMStorage(Env) {}
+  WasmEdgeStorageLoadI64(StorageEnvironment &Env) : WasmEdgeStorage(Env) {}
   Expect<uint64_t> body(Runtime::Instance::MemoryInstance *MemInst);
 };
 
-class SSVMStorageEndStoreTx : public SSVMStorage<SSVMStorageEndStoreTx> {
+class WasmEdgeStorageEndStoreTx
+    : public WasmEdgeStorage<WasmEdgeStorageEndStoreTx> {
 public:
-  SSVMStorageEndStoreTx(StorageEnvironment &Env) : SSVMStorage(Env) {}
+  WasmEdgeStorageEndStoreTx(StorageEnvironment &Env) : WasmEdgeStorage(Env) {}
   Expect<void> body(Runtime::Instance::MemoryInstance *MemInst);
 };
 
-class SSVMStorageEndLoadTx : public SSVMStorage<SSVMStorageEndLoadTx> {
+class WasmEdgeStorageEndLoadTx
+    : public WasmEdgeStorage<WasmEdgeStorageEndLoadTx> {
 public:
-  SSVMStorageEndLoadTx(StorageEnvironment &Env) : SSVMStorage(Env) {}
+  WasmEdgeStorageEndLoadTx(StorageEnvironment &Env) : WasmEdgeStorage(Env) {}
   Expect<void> body(Runtime::Instance::MemoryInstance *MemInst);
 };
 
 } // namespace Host
-} // namespace SSVM
+} // namespace WasmEdge

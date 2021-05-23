@@ -4,16 +4,16 @@
 #include "runtime/importobj.h"
 #include "storage_env.h"
 
-namespace SSVM {
+namespace WasmEdge {
 namespace Host {
 
-class SSVMStorageModule : public Runtime::ImportObject {
+class WasmEdgeStorageModule : public Runtime::ImportObject {
 public:
-  SSVMStorageModule();
+  WasmEdgeStorageModule();
 
 private:
   StorageEnvironment Env;
 };
 
 } // namespace Host
-} // namespace SSVM
+} // namespace WasmEdge

@@ -4,29 +4,30 @@
 
 #include <memory>
 
-namespace SSVM {
+namespace WasmEdge {
 namespace Host {
 
-SSVMStorageModule::SSVMStorageModule() : ImportObject("ssvm_native") {
-  addHostFunc("ssvm_storage_createUUID",
-              std::make_unique<SSVMStorageCreateUUID>(Env));
-  addHostFunc("ssvm_storage_beginStoreTx",
-              std::make_unique<SSVMStorageBeginStoreTx>(Env));
-  addHostFunc("ssvm_storage_beginLoadTx",
-              std::make_unique<SSVMStorageBeginLoadTx>(Env));
-  addHostFunc("ssvm_storage_storeI32",
-              std::make_unique<SSVMStorageStoreI32>(Env));
-  addHostFunc("ssvm_storage_loadI32",
-              std::make_unique<SSVMStorageLoadI32>(Env));
-  addHostFunc("ssvm_storage_storeI64",
-              std::make_unique<SSVMStorageStoreI64>(Env));
-  addHostFunc("ssvm_storage_loadI64",
-              std::make_unique<SSVMStorageLoadI64>(Env));
-  addHostFunc("ssvm_storage_endStoreTx",
-              std::make_unique<SSVMStorageEndStoreTx>(Env));
-  addHostFunc("ssvm_storage_endLoadTx",
-              std::make_unique<SSVMStorageEndLoadTx>(Env));
+WasmEdgeStorageModule::WasmEdgeStorageModule()
+    : ImportObject("wasmedge_native") {
+  addHostFunc("wasmedge_storage_createUUID",
+              std::make_unique<WasmEdgeStorageCreateUUID>(Env));
+  addHostFunc("wasmedge_storage_beginStoreTx",
+              std::make_unique<WasmEdgeStorageBeginStoreTx>(Env));
+  addHostFunc("wasmedge_storage_beginLoadTx",
+              std::make_unique<WasmEdgeStorageBeginLoadTx>(Env));
+  addHostFunc("wasmedge_storage_storeI32",
+              std::make_unique<WasmEdgeStorageStoreI32>(Env));
+  addHostFunc("wasmedge_storage_loadI32",
+              std::make_unique<WasmEdgeStorageLoadI32>(Env));
+  addHostFunc("wasmedge_storage_storeI64",
+              std::make_unique<WasmEdgeStorageStoreI64>(Env));
+  addHostFunc("wasmedge_storage_loadI64",
+              std::make_unique<WasmEdgeStorageLoadI64>(Env));
+  addHostFunc("wasmedge_storage_endStoreTx",
+              std::make_unique<WasmEdgeStorageEndStoreTx>(Env));
+  addHostFunc("wasmedge_storage_endLoadTx",
+              std::make_unique<WasmEdgeStorageEndLoadTx>(Env));
 }
 
 } // namespace Host
-} // namespace SSVM
+} // namespace WasmEdge

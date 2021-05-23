@@ -9,12 +9,12 @@
 #include <string>
 #include <vector>
 
-namespace SSVM {
+namespace WasmEdge {
 namespace Host {
 
 Expect<void>
-SSVMStorageCreateUUID::body(Runtime::Instance::MemoryInstance *MemInst,
-                            uint32_t KeyPtr) {
+WasmEdgeStorageCreateUUID::body(Runtime::Instance::MemoryInstance *MemInst,
+                                uint32_t KeyPtr) {
   /// Check memory instance from module.
   if (MemInst == nullptr) {
     return Unexpect(ErrCode::ExecutionFailed);
@@ -32,8 +32,8 @@ SSVMStorageCreateUUID::body(Runtime::Instance::MemoryInstance *MemInst,
 }
 
 Expect<void>
-SSVMStorageBeginStoreTx::body(Runtime::Instance::MemoryInstance *MemInst,
-                              uint32_t KeyPtr) {
+WasmEdgeStorageBeginStoreTx::body(Runtime::Instance::MemoryInstance *MemInst,
+                                  uint32_t KeyPtr) {
   /// Check memory instance from module.
   if (MemInst == nullptr) {
     return Unexpect(ErrCode::ExecutionFailed);
@@ -47,8 +47,8 @@ SSVMStorageBeginStoreTx::body(Runtime::Instance::MemoryInstance *MemInst,
 }
 
 Expect<void>
-SSVMStorageBeginLoadTx::body(Runtime::Instance::MemoryInstance *MemInst,
-                             uint32_t KeyPtr) {
+WasmEdgeStorageBeginLoadTx::body(Runtime::Instance::MemoryInstance *MemInst,
+                                 uint32_t KeyPtr) {
   /// Check memory instance from module.
   if (MemInst == nullptr) {
     return Unexpect(ErrCode::ExecutionFailed);
@@ -72,8 +72,8 @@ SSVMStorageBeginLoadTx::body(Runtime::Instance::MemoryInstance *MemInst,
 }
 
 Expect<void>
-SSVMStorageStoreI32::body(Runtime::Instance::MemoryInstance *MemInst,
-                          uint32_t Value) {
+WasmEdgeStorageStoreI32::body(Runtime::Instance::MemoryInstance *MemInst,
+                              uint32_t Value) {
   uint8_t Buf[4];
   std::memcpy(&Buf, &Value, sizeof(Value));
   std::copy_n(Buf, 4, std::back_inserter(Env.getBuf()));
@@ -81,7 +81,7 @@ SSVMStorageStoreI32::body(Runtime::Instance::MemoryInstance *MemInst,
 }
 
 Expect<uint32_t>
-SSVMStorageLoadI32::body(Runtime::Instance::MemoryInstance *MemInst) {
+WasmEdgeStorageLoadI32::body(Runtime::Instance::MemoryInstance *MemInst) {
   auto &Off = Env.getLoadOff();
   if (Off >= Env.getBuf().size() || Off + 4 > Env.getBuf().size()) {
     return Unexpect(ErrCode::ExecutionFailed);
@@ -93,8 +93,8 @@ SSVMStorageLoadI32::body(Runtime::Instance::MemoryInstance *MemInst) {
 }
 
 Expect<void>
-SSVMStorageStoreI64::body(Runtime::Instance::MemoryInstance *MemInst,
-                          uint64_t Value) {
+WasmEdgeStorageStoreI64::body(Runtime::Instance::MemoryInstance *MemInst,
+                              uint64_t Value) {
   uint8_t Buf[8];
   std::memcpy(&Buf, &Value, sizeof(Value));
   std::copy_n(Buf, 8, std::back_inserter(Env.getBuf()));
@@ -102,7 +102,7 @@ SSVMStorageStoreI64::body(Runtime::Instance::MemoryInstance *MemInst,
 }
 
 Expect<uint64_t>
-SSVMStorageLoadI64::body(Runtime::Instance::MemoryInstance *MemInst) {
+WasmEdgeStorageLoadI64::body(Runtime::Instance::MemoryInstance *MemInst) {
   auto &Off = Env.getLoadOff();
   if (Off >= Env.getBuf().size() || Off + 8 > Env.getBuf().size()) {
     return Unexpect(ErrCode::ExecutionFailed);
@@ -114,7 +114,7 @@ SSVMStorageLoadI64::body(Runtime::Instance::MemoryInstance *MemInst) {
 }
 
 Expect<void>
-SSVMStorageEndStoreTx::body(Runtime::Instance::MemoryInstance *MemInst) {
+WasmEdgeStorageEndStoreTx::body(Runtime::Instance::MemoryInstance *MemInst) {
   store_byte_array(Env.getKey().c_str(), Env.getKey().length(),
                    reinterpret_cast<char *>(&(Env.getBuf()[0])),
                    Env.getBuf().size());
@@ -122,10 +122,10 @@ SSVMStorageEndStoreTx::body(Runtime::Instance::MemoryInstance *MemInst) {
 }
 
 Expect<void>
-SSVMStorageEndLoadTx::body(Runtime::Instance::MemoryInstance *MemInst) {
+WasmEdgeStorageEndLoadTx::body(Runtime::Instance::MemoryInstance *MemInst) {
   Env.getLoadOff() = 0;
   return {};
 }
 
 } // namespace Host
-} // namespace SSVM
+} // namespace WasmEdge

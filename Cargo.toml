@@ -1,5 +1,5 @@
 [package]
-name = "ssvm_storage_rust"
+name = "wasmedge_storage_rust"
 version = "0.1.0"
 authors = ["SecondState"]
 edition = "2018"
