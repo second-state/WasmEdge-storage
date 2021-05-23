@@ -47,6 +47,8 @@ jobs:
         submodules: true
     - name: Build amd64 package
       run: |
+        curl https://sh.rustup.rs -sSf | sh -s -- -y
+        source $HOME/.cargo/env
         rm -rf build
         mkdir build
         cd build
