@@ -1,3 +1,15 @@
+### 0.8.0 (2021-05-24)
+
+This is the host function extension for [WasmEdge](https://github.com/WasmEdge/WasmEdge).
+Please refer to the [WasmEdge 0.8.0](https://github.com/WasmEdge/WasmEdge/releases/tag/0.8.0) for more details.
+
+Features:
+
+* Renamed this project to `WasmEdge-storage` and updated the `WasmEdge` dependency.
+* Added `wasmedge-storage` C API shared library.
+* Added CMake option `BUILD_SHARED_LIB` to enable compiling the shared library (`ON` by default).
+* Added build and release CI.
+
 ### 0.7.3 (2021-01-25)
 
 This is an extension release for updating ssvm-core.
