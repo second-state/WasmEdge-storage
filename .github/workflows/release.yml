@@ -1,0 +1,78 @@
+name: release
+
+on:
+  push:
+    tags:
+      - "*"
+
+jobs:
+  create:
+    name: Create Release
+    runs-on: ubuntu-latest
+    container:
+      image: wasmedge/wasmedge:ubuntu-build-gcc
+    outputs:
+      version: ${{ steps.prep.outputs.version }}
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      with:
+        submodules: true
+    - name: Get version
+      id: prep
+      run: |
+        echo ::set-output name=version::$(git describe --tag)
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: WasmEdge-Storage ${{ steps.prep.outputs.version }}
+        body_path: .CurrentChangelog.md
+        draft: true
+        prerelease: false
+  build_and_upload_amd64:
+    name: Build WasmEdge-storage using g++ on amd64 platform
+    needs: [create]
+    runs-on: ubuntu-latest
+    container:
+      image: wasmedge/wasmedge:ubuntu-build-gcc
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      with:
+        submodules: true
+    - name: Build amd64 package
+      run: |
+        rm -rf build
+        mkdir build
+        cd build
+        cmake -DCMAKE_BUILD_TYPE=Release ..
+        make -j
+        tar -zcvf wasmedge-storage.tar.gz include/wasmedge-storage.h lib/libwasmedge-storage_c.so
+        tar Jcvf wasmedge-storage.tar.xz include/wasmedge-storage.h lib/libwasmedge-storage_c.so
+        cd ..
+        mv build/wasmedge-storage.tar.gz wasmedge-storage.tar.gz
+        mv build/wasmedge-storage.tar.xz wasmedge-storage.tar.xz
+        ls -alF
+    - name: Upload WasmEdge-storage amd64 tar.gz package
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ needs.create.outputs.upload_url }}
+        asset_path: wasmedge-storage.tar.gz
+        asset_name: WasmEdge-storage-${{ needs.create.outputs.version }}-Linux_x86_64.tar.gz
+        asset_content_type: application/x-gzip
+    - name: Upload WasmEdge-storage amd64 tar.xz package
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ needs.create.outputs.upload_url }}
+        asset_path: wasmedge-storage.tar.xz
+        asset_name: WasmEdge-storage-${{ needs.create.outputs.version }}-Linux_x86_64.tar.xz
+        asset_content_type: application/x-xz
