@@ -10,10 +10,10 @@ on:
 
 jobs:
   build_amd64:
-    name: Build WasmEdge-storage using g++ on amd64 platform
+    name: Build WasmEdge-storage using clang++ on amd64 platform
     runs-on: ubuntu-latest
     container:
-      image: wasmedge/wasmedge:ubuntu-build-gcc
+      image: wasmedge/wasmedge:ubuntu-build-clang
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
