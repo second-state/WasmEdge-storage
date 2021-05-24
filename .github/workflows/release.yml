@@ -47,8 +47,10 @@ jobs:
         submodules: true
     - name: Build amd64 package
       run: |
+        export RUSTUP_HOME="$PWD/.rustup"
+        export CARGO_HOME="$PWD/.cargo"
         curl https://sh.rustup.rs -sSf | sh -s -- -y
-        source $HOME/.cargo/env
+        export PATH="$PWD/.cargo/bin:$PATH"
         rm -rf build
         mkdir build
         cd build
