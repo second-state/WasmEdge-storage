@@ -36,7 +36,7 @@ $ sudo apt install -y clang
 ```bash
 $ git clone --recursive git@github.com:second-state/WasmEdge-storage.git
 $ cd WasmEdge-storage
-$ git checkout 0.8.0
+$ git checkout 0.8.1
 ```
 
 ## Prepare Machine with RocksDB
